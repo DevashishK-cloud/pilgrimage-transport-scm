@@ -1,0 +1,68 @@
+# ---------------------------------------------------------------------------
+# STRICT POLICY: publish code and results. Publish NO data derived from
+# licensed CPHS microdata.
+#
+# CMIE Consumer Pyramids microdata is licensed. Git history is permanent -- a
+# file committed once and deleted later remains in the repository forever.
+# This file must exist before the first `git add`, not after.
+#
+# Everything under output/ is ignored by default. Only the specific results
+# whitelisted at the bottom are published, and each is a RESULT (an estimate
+# or a figure), not a dataset.
+# ---------------------------------------------------------------------------
+
+# Licensed source data -- never, under any circumstances
+CMIE_Income_raw/
+**/household_income_*.csv
+*.parquet
+
+# Everything the pipeline writes is ignored unless explicitly allowed below.
+#
+# NOTE the trailing /* rather than /. Git will not descend into an excluded
+# DIRECTORY, so "output/" would make the re-includes below unreachable and
+# silently publish nothing. Excluding the directory's CONTENTS instead lets
+# the whitelist work.
+output/*
+!output/results/
+output/results/*
+!output/results/summary.csv
+!output/figures/
+output/figures/*
+!output/figures/*.png
+
+# Deliberately NOT published, though the code regenerates all of them:
+#   panel_district_month.parquet  - the panel itself
+#   audit_by_month.csv            - per-wave CPHS sample counts
+#   donor_screen.csv              - 844 rows of district sample sizes and SEs
+#   level_breaks.csv              - 772 rows of income-derived statistics
+#   *_series.csv, *_eventstudy.csv, *_weights.csv, *_sources.csv,
+#   *_composition.csv, *_donor_distance.csv
+#                                 - district-month series and decompositions
+#   cpi_state_sector_monthly.csv  - public domain, but fetch_cpi.py rebuilds it
+#                                   in ~5 min, so there is nothing to gain by
+#                                   shipping a data file at all
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# ---------------------------------------------------------------------------
+# OS / editor / scratch
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+_to_delete/
+scratch/
+*.log
+*.tmp
